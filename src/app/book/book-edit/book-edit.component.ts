@@ -1,14 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { BookApiService } from '../book-api.service';
 import { Book, bookNa } from '../models';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'ws-book-edit',
-  templateUrl: './book-edit.component.html',
-  styleUrls: ['./book-edit.component.scss']
+    selector: 'ws-book-edit',
+    templateUrl: './book-edit.component.html',
+    styleUrls: ['./book-edit.component.scss'],
+    standalone: true,
+    imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink]
 })
 export class BookEditComponent implements OnInit, OnDestroy {
   sink = new Subscription();

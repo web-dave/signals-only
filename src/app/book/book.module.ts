@@ -17,27 +17,24 @@ import { BookComponent } from './book.component';
 import { BookCardComponent } from './book-card/book-card.component';
 
 @NgModule({
-  imports: [
-    BookRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    CommonModule,
-    ReactiveFormsModule,
-
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule
-  ],
-  declarations: [
-    BookComponent,
-    BookListComponent,
-    BookDetailComponent,
-    BookEditComponent,
-    BookNewComponent,
-    BookCardComponent
-  ]
+    imports: [
+        BookRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        CommonModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatListModule,
+        BookComponent,
+        BookListComponent,
+        BookDetailComponent,
+        BookEditComponent,
+        BookNewComponent,
+        BookCardComponent
+    ]
 })
 export class BookModule {}
