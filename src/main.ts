@@ -21,25 +21,10 @@ import {
 } from "@angular/platform-browser";
 import { routes } from "./app/app.routes";
 import { provideRouter } from "@angular/router";
+import { appConfig } from "./app/app.config";
 
 if (environment.production) {
   enableProdMode();
 }
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter(routes),
-    importProvidersFrom(
-      BrowserModule,
-      FormsModule,
-      HammerModule,
-      MatToolbarModule,
-      MatButtonModule,
-      MatSidenavModule,
-      MatIconModule,
-      MatListModule
-    ),
-    provideHttpClient(withInterceptorsFromDi()),
-    provideAnimations(),
-  ],
-}).catch((err) => console.log(err));
+bootstrapApplication(AppComponent, appConfig).catch((err) => console.log(err));

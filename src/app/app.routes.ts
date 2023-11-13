@@ -8,6 +8,6 @@ export const routes: Routes = [
   },
   {
     path: "books",
-    loadChildren: () => import("./book/book.module").then((m) => m.BookModule),
+    loadChildren: () => import("./book/book.routes"),
   },
 ];
