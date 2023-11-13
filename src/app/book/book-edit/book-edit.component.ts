@@ -1,40 +1,41 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { BookApiService } from '../book-api.service';
-import { Book, bookNa } from '../models';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
+import { Component, inject } from "@angular/core";
+import { ActivatedRoute, RouterLink } from "@angular/router";
+import { switchMap } from "rxjs/operators";
+import { BookApiService } from "../book-api.service";
+import { Book, bookNa } from "../models";
+import { MatButtonModule } from "@angular/material/button";
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { FormsModule } from "@angular/forms";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
-    selector: 'ws-book-edit',
-    templateUrl: './book-edit.component.html',
-    styleUrls: ['./book-edit.component.scss'],
-    standalone: true,
-    imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink]
+  selector: "ws-book-edit",
+  templateUrl: "./book-edit.component.html",
+  styleUrls: ["./book-edit.component.scss"],
+  standalone: true,
+  imports: [
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    RouterLink,
+  ],
 })
-export class BookEditComponent implements OnInit, OnDestroy {
-  sink = new Subscription();
+export class BookEditComponent {
   book: Book = bookNa();
-
-  constructor(private route: ActivatedRoute, private bookService: BookApiService) {}
-
-  ngOnInit() {
-    this.sink.add(
-      this.route.params
-        .pipe(switchMap(params => this.bookService.getByIsbn(params.isbn)))
-        .subscribe(book => (this.book = book))
-    );
-  }
-
-  ngOnDestroy() {
-    this.sink.unsubscribe();
-  }
+  private bookService = inject(BookApiService);
+  private route = inject(ActivatedRoute)
+    .params.pipe(
+      switchMap((params) => this.bookService.getByIsbn(params.isbn)),
+      takeUntilDestroyed()
+    )
+    .subscribe((book) => (this.book = book));
 
   save() {
-    this.sink.add(this.bookService.update(this.book.isbn, this.book).subscribe());
+    this.bookService
+      .update(this.book.isbn, this.book)
+      .pipe(takeUntilDestroyed())
+      .subscribe();
   }
 }

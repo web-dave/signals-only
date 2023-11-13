@@ -1,16 +1,32 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Book } from './models';
+import { HttpClient } from "@angular/common/http";
+import {
+  Injectable,
+  Signal,
+  WritableSignal,
+  effect,
+  inject,
+  signal,
+} from "@angular/core";
+import { Observable, filter } from "rxjs";
+import { Book } from "./models";
+import { toSignal } from "@angular/core/rxjs-interop";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class BookApiService {
-  private endpoint = 'http://localhost:4730/books';
-
-  constructor(private http: HttpClient) {}
+  private endpoint = "http://localhost:4730/books";
+  private http = inject(HttpClient);
 
   getAll(): Observable<Book[]> {
     return this.http.get<Book[]>(`${this.endpoint}`);
+  }
+  getAll_S(): WritableSignal<Book[]> {
+    const returnValue = signal([] as Book[]);
+
+    this.http
+      .get<Book[]>(`${this.endpoint}`)
+      .subscribe((data) => returnValue.update(() => data));
+
+    return returnValue;
   }
 
   getByIsbn(isbn: string): Observable<Book> {

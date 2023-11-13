@@ -1,7 +1,7 @@
 <h2 class="mat-h2">Books</h2>
-
+<button #load>Load</button>
 <div class="books-grid">
-  @for (book of books$ | async; track book) {
+  @defer (on interaction(load)) { @for (book of books$ | async; track book) {
   <ws-book-card [content]="book"></ws-book-card>
-}
+  }}
 </div>
