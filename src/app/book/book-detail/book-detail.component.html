@@ -1,4 +1,5 @@
-<mat-card appearance="outlined" *ngIf="book$ | async as book" class="example-card">
+@if (book$ | async; as book) {
+<mat-card appearance="outlined" class="example-card">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title>{{ book.title }}</mat-card-title>
@@ -20,3 +21,4 @@
     <button mat-raised-button [routerLink]="['edit']" color="primary">EDIT</button>
   </mat-card-actions>
 </mat-card>
+}

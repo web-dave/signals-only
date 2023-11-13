@@ -1,5 +1,6 @@
 <h2 class="mat-h2">Edit</h2>
-<ng-container *ngIf="book">
+@if (book) {
+
   <form #form="ngForm" (ngSubmit)="save()" class="book-edit__form">
     <mat-form-field>
       <input matInput [(ngModel)]="book.isbn" name="isbn" placeholder="ISBN" readonly />
@@ -9,7 +10,9 @@
     </mat-form-field>
     <mat-form-field>
       <input matInput [(ngModel)]="book.author" name="author" placeholder="Author" #author="ngModel" required />
-      <mat-error *ngIf="author.errors">Author is required</mat-error>
+      @if (author.errors) {
+<mat-error>Author is required</mat-error>
+}
     </mat-form-field>
 
     <div class="book-actions">
@@ -17,4 +20,5 @@
       <button mat-raised-button color="primary" [disabled]="!form.valid" type="submit">Save</button>
     </div>
   </form>
-</ng-container>
+
+}
